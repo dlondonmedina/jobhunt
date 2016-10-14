@@ -7,7 +7,7 @@ class Db_Connect {
    protected $conn;
 
    function __construct() {
-      $config = parse_ini_file('../jobhunt_sec/config.ini');
+      $config = parse_ini_file('path/to/config.ini');
       self::$host = $config['Host'];
       self::$db = $config['Database'];
       self::$uname = $config['Username'];
