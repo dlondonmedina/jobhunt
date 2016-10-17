@@ -23,5 +23,5 @@ class Output_view {
       } 
       echo '</tbody></table>';	
    }
-   
+
 }

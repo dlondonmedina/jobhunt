@@ -22,9 +22,9 @@ class Controller {
       return $result;
    }
 
-   function retrieve_list($index, $value) {
+   function retrieve_list($col, $table) {
        self::$db->connect();
-       $result = self::$db->retrieve_list($index, $value);
+       $result = self::$db->retrieve_list($col, $table);
        return $result;
    }
 
@@ -35,9 +35,9 @@ class Controller {
       return $result;
    }
 
-   function applied($position) {
+   function applied($post_vals) {
       self::$db->connect();
-      self::$db->apply($position);
+      self::$db->apply($post_vals);
    }
 
    function update_applied($id, $note, $response) {

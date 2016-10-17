@@ -7,7 +7,7 @@ class Db_Connect {
    protected $conn;
 
    function __construct() {
-      $config = parse_ini_file('path/to/config.ini');
+      $config = parse_ini_file('../jobhunt_sec/config.ini');
       self::$host = $config['Host'];
       self::$db = $config['Database'];
       self::$uname = $config['Username'];
@@ -45,17 +45,18 @@ class Db_Connect {
       $stmt->bindParam(':'. $table, $table);
       $stmt->bindParam(':'. $index, $index);
       $stmt->bindParam(':'. $value, $value);
-      $result = $stmt->execute();
-      return $result;
+      $stmt->execute();
+      return $stmt;
    }
 
    function retrieve_list($col, $table) {
        $conn = $this->conn;
-       $stmt = $conn->prepare("SELECT :" . $col . " FROM :" . $table);
-       $stmt->bindParam(':' . $col, $col);
-       $stmt->bindParam(':'. $table, $table);
-       $result = $stmt->execute();
-       return $result;
+       $sql = "SELECT :col FROM :table";
+       $stmt = $conn->prepare($sql);
+       $stmt->bindParam(":col", $col);
+       $stmt->bindParam(":table", $table);
+       $stmt->execute();
+       return $stmt;
    }
 
    function retrieve_all($order) {
@@ -74,13 +75,12 @@ class Db_Connect {
        return $stmt;
    }
 
-   function apply($position, $notes) {
+   function apply($vals) {
       $conn = $this->conn;
-      $sql = "INSERT INTO applied (id, response, notes) VALUES (:id, :response, :notes)";
-      $stmt = $conn->prepare($sql);
-      $stmt->bindParam(':id', $position);
-      $stmt->bindParam(':response', $d_response);
-      $stmt->bindParam(':notes', $notes);
+      $stmt = $conn->prepare("INSERT INTO applied (id, response, notes) VALUES (:id, :response, :notes)");
+      $stmt->bindParam(':id', $vals['school']);
+      $stmt->bindParam(':response', $vals['response']);
+      $stmt->bindParam(':notes', $vals['notes']);
       $stmt->execute();
       echo "Success!";
    }
